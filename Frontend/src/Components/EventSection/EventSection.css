@@ -1,0 +1,42 @@
+.event-section {
+  padding: 40px 20px;
+  background: #f8f9fa;
+}
+
+.section-title {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #0d6efd;
+}
+
+.tabs {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.tabs button {
+  padding: 10px 25px;
+  cursor: pointer;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.tabs .active {
+  background-color: #0d6efd;
+  color: white;
+}
+
+.tab-content {
+  padding: 20px;
+  background: white;
+  border-radius: 10px;
+  max-width: 900px;
+  margin: 0 auto;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+}

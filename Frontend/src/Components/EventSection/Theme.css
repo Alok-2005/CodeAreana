@@ -1,0 +1,16 @@
+.theme-container {
+  text-align: center;
+  padding: 20px;
+}
+
+.floating-icons {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-top: 20px;
+}
+
+.icon {
+  width: 60px;
+  height: 60px;
+}
