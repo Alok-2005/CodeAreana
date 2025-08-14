@@ -1,0 +1,74 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.8rem 2rem;
+  background-color: #0d1117;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+}
+
+.navbar-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.logo {
+  height: 40px;
+  object-fit: contain;
+}
+
+.navbar-right {
+  list-style: none;
+  display: flex;
+  gap: 1.5rem;
+}
+
+.navbar-right li {
+  cursor: pointer;
+  position: relative;
+  color: white;
+  font-weight: 500;
+}
+
+.navbar-right li::after {
+  content: "";
+  position: absolute;
+  bottom: -3px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(135deg, #00c6ff, #0072ff);
+  transition: 0.3s;
+}
+
+.navbar-right li:hover::after {
+  width: 100%;
+}
+/*  */ 
+ 
+
+/* Mobile View */
+@media (max-width: 768px) {
+  .navbar-right {
+    position: absolute;
+    top: 70px;
+    right: 0;
+    background: #181818;
+    flex-direction: column;
+    width: 100%;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-in-out;
+  }
+
+  .navbar-right.open {
+    max-height: 300px; /* enough to show menu items */
+  }
+
+  .hamburger {
+    display: flex;
+  }
+}

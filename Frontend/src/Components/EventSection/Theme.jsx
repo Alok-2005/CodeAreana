@@ -1,36 +1,40 @@
-import React from "react";
-import { motion } from "framer-motion";
-import "./Theme.css";
+import React, { useEffect } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import "./SectionStyles.css";
 
-const Theme = () => (
-  <motion.div
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    transition={{ duration: 0.5 }}
-    className="theme-container"
-  >
-    <h2>Theme: AI in Healthcare</h2>
-    <div className="floating-icons">
-      <motion.img
-        src="/icons/ai-chip.png"
-        className="icon"
-        animate={{ y: [0, -10, 0] }}
-        transition={{ repeat: Infinity, duration: 3 }}
-      />
-      <motion.img
-        src="/icons/heartbeat.png"
-        className="icon"
-        animate={{ y: [0, 10, 0] }}
-        transition={{ repeat: Infinity, duration: 4 }}
-      />
-      <motion.img
-        src="/icons/dna.png"
-        className="icon"
-        animate={{ y: [0, -5, 0] }}
-        transition={{ repeat: Infinity, duration: 2.5 }}
-      />
-    </div>
-  </motion.div>
-);
+gsap.registerPlugin(ScrollTrigger);
+
+function Theme() {
+  useEffect(() => {
+    gsap.fromTo(
+      ".theme-container",
+      { opacity: 0, x: -50 },
+      {
+        opacity: 1,
+        x: 0,
+        duration: 1,
+        scrollTrigger: {
+          trigger: ".theme-container",
+          start: "top 80%",
+        },
+      }
+    );
+  }, []);
+
+  return (
+    <section id="theme" className="section-container theme-container">
+      <h2>Theme: AI in Healthcare</h2>
+      <p>
+        Artificial Intelligence is revolutionizing healthcare — from predictive
+        diagnostics and personalized treatment plans to advanced medical imaging
+        and automated hospital workflows. This year’s theme encourages
+        participants to explore innovative applications of AI that can improve
+        lives and reshape the future of medicine.
+      </p>
+    </section>
+  );
+}
 
 export default Theme;
+

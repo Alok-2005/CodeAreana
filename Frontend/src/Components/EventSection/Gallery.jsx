@@ -1,34 +1,45 @@
-import React from "react";
-import { motion } from "framer-motion";
-import "./Gallery.css";
+import React, { useEffect } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import "./SectionStyles.css";
 
-const events = [
-  { img: "/gallery/event1.jpg", name: "CodeArena 2024", info: "Hosted in Pune" },
-  { img: "/gallery/event2.jpg", name: "CodeArena 2023", info: "Hosted in Mumbai" },
-];
+gsap.registerPlugin(ScrollTrigger);
 
-const Gallery = () => (
-  <motion.div
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    transition={{ duration: 0.5 }}
-    className="gallery-container"
-  >
-    <h2>Gallery</h2>
-    <div className="gallery-grid">
-      {events.map((event, idx) => (
-        <motion.div
-          key={idx}
-          whileHover={{ scale: 1.05, rotate: 1 }}
-          className="gallery-card"
-        >
-          <img src={event.img} alt={event.name} />
-          <h4>{event.name}</h4>
-          <p>{event.info}</p>
-        </motion.div>
-      ))}
-    </div>
-  </motion.div>
-);
+function Gallery() {
+  useEffect(() => {
+    gsap.fromTo(
+      ".gallery-item",
+      { opacity: 0, scale: 0.9 },
+      {
+        opacity: 1,
+        scale: 1,
+        stagger: 0.2,
+        duration: 0.8,
+        scrollTrigger: {
+          trigger: ".gallery-container",
+          start: "top 80%",
+        },
+      }
+    );
+  }, []);
+
+  const images = [
+    "/images/event1.jpg",
+    "/images/event2.jpg",
+    "/images/event3.jpg",
+  ];
+
+  return (
+    <section id="gallery" className="section-container gallery-container">
+      <h2>Previous Events</h2>
+      <div className="gallery-grid">
+        {images.map((src, index) => (
+          <img key={index} src={src} alt={`Event ${index + 1}`} className="gallery-item" />
+        ))}
+      </div>
+    </section>
+  );
+}
 
 export default Gallery;
+

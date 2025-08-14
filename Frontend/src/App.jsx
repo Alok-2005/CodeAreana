@@ -1,31 +1,22 @@
 import React from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap/dist/js/bootstrap.bundle.min.js";
-import "./App.css";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-// Import components
-import Navbar from "./components/Navbar";
-import Hero from "./components/Hero";
-import About from "./components/About";
-import MoreInfo from "./components/MoreInfo";
-import Organizers from "./components/Organizers";
-import Conduct from "./components/CodeOfConduct";
-import Contact from "./components/ContactUs";
-import Footer from "./components/Footer";
 
+import IndexPage from "./index.jsx";
+import Event from "./Components/EventSection/Event";
+import CodeArena from "./Components/EventSection/CodeArena.jsx";
+import "./app.css"
 const App = () => {
   return (
-    <>
-      <Navbar />
-      <Hero />
-      <About />
-      <MoreInfo />
-      <Organizers />
-      <Conduct />
-      <Contact />
-      <Footer />
-    </>
-  );
-};
-
-export default App;
+    <Router>
+      <Routes>
+        <Route path="/" element={<IndexPage />} />
+        {/* <Route path="/events" element={<Event />} /> */}
+        <Route path="/events" element={<CodeArena />} />
+      </Routes>
+    </Router>
+  ) 
+ }
+ 
+  
+  export default App

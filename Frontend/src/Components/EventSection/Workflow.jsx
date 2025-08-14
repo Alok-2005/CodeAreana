@@ -1,33 +1,48 @@
-import React from "react";
-import { motion } from "framer-motion";
-import "./Workflow.css"; // Create CSS for arrows/flowchart
+import React, { useEffect } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import "./SectionStyles.css";
 
-const steps = [
-  "Registration",
-  "Problem Assignment",
-  "Code Submission",
-  "Evaluation",
-  "Results & Prizes",
-];
+gsap.registerPlugin(ScrollTrigger);
 
-const Workflow = () => (
-  <motion.div
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    transition={{ duration: 0.5 }}
-    className="workflow-container"
-  >
-    <h2>Workflow</h2>
-    <div className="flowchart">
-      {steps.map((step, idx) => (
-        <div className="flow-step" key={idx}>
-          <div className="step-icon">{idx + 1}</div>
-          <div className="step-text">{step}</div>
-          {idx < steps.length - 1 && <div className="arrow">→</div>}
-        </div>
-      ))}
-    </div>
-  </motion.div>
-);
+function Workflow() {
+  useEffect(() => {
+    gsap.fromTo(
+      ".workflow-step",
+      { opacity: 0, y: 50 },
+      {
+        opacity: 1,
+        y: 0,
+        stagger: 0.3,
+        duration: 1,
+        scrollTrigger: {
+          trigger: ".workflow-container",
+          start: "top 80%",
+        },
+      }
+    );
+  }, []);
+
+  const steps = [
+    "Registration & Team Formation",
+    "Preliminary Online Round",
+    "On-Site Coding Challenge",
+    "Final Presentations & Judging",
+    "Winner Announcement & Awards",
+  ];
+
+  return (
+    <section id="workflow" className="section-container workflow-container">
+      <h2>Workflow</h2>
+      <div>
+        {steps.map((step, index) => (
+          <p key={index} className="workflow-step">
+            {index + 1}. {step}
+          </p>
+        ))}
+      </div>
+    </section>
+  );
+}
 
 export default Workflow;

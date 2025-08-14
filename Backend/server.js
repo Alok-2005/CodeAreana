@@ -14,10 +14,19 @@ const imagekit = new ImageKit({
   privateKey: process.env.IMAGEKIT_PRIVATE_KEY,
   urlEndpoint: process.env.IMAGEKIT_URL_ENDPOINT
 });
-
 app.post("/upload", upload.single("payment"), async (req, res) => {
+  console.log(req.body);
+  
   try {
-    const { leaderName, email, contact, college, team, members } = req.body;
+    const { leaderName, email, contact, college, team, members, memberList } = req.body;
+
+    // Parse members JSON (important!)
+    let membersArray = [];
+    try {
+      membersArray = JSON.parse(memberList || "[]");
+    } catch (err) {
+      console.error("Error parsing memberList:", err);
+    }
 
     // Upload to ImageKit
     const result = await imagekit.upload({
@@ -25,14 +34,15 @@ app.post("/upload", upload.single("payment"), async (req, res) => {
       fileName: `payment_${Date.now()}${req.file.originalname}`,
     });
 
-    // Save form + image URL to Google Sheets
+    // Save form + image URL + members to Google Sheets
     const sheetResponse = await fetch(process.env.GOOGLE_SHEETS_WEBHOOK, {
       method: "POST",
       body: JSON.stringify({
         action: "register",
         leader: { name: leaderName, email, phone: contact, college },
         team: { name: team, size: members },
-        payment: { url: result.url, status: "Completed" }  
+        members: membersArray, // ✅ Added members array
+        payment: { url: result.url, status: "Completed" }
       }),
       headers: { "Content-Type": "application/json" }
     });
@@ -50,6 +60,7 @@ app.post("/upload", upload.single("payment"), async (req, res) => {
     res.status(500).json({ success: false, error: err.message });
   }
 });
+
 
 
 app.listen(3000, () => console.log("Server running on port 3000"));

@@ -1,44 +1,40 @@
-import React, { useState } from "react";
-import { motion } from "framer-motion";
-import "./EventSection.css";
-import AboutEvent from "./AboutEvent";
-import Workflow from "./Workflow";
-import Theme from "./Theme";
-import Gallery from "./Gallery";
+import React, { useEffect } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import "./SectionStyles.css";
 
-const EventSection = () => {
-  const [activeTab, setActiveTab] = useState("about");
+gsap.registerPlugin(ScrollTrigger);
+
+function EventSection() {
+  useEffect(() => {
+    gsap.fromTo(
+      ".about-container",
+      { opacity: 0, y: 50 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 1,
+        scrollTrigger: {
+          trigger: ".about-container",
+          start: "top 80%",
+        },
+      }
+    );
+  }, []);
 
   return (
-    <section className="event-section">
-      <h1 className="section-title">CodeArena Event</h1>
-      <div className="tabs">
-        {["about", "workflow", "theme", "gallery"].map((tab) => (
-          <button
-            key={tab}
-            onClick={() => setActiveTab(tab)}
-            className={activeTab === tab ? "active" : ""}
-          >
-            {tab.charAt(0).toUpperCase() + tab.slice(1)}
-          </button>
-        ))}
-      </div>
-
-      <motion.div
-        className="tab-content"
-        key={activeTab}
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        {activeTab === "about" && <AboutEvent />}
-        {activeTab === "workflow" && <Workflow />}
-        {activeTab === "theme" && <Theme />}
-        {activeTab === "gallery" && <Gallery />}
-      </motion.div>
+    <section id="about" className="section-container about-container">
+      <h2>About Us</h2>
+      <p>
+        <strong>Code Arena 3.0</strong>, organized by <strong>CodeCraft</strong> in
+        partnership with <strong>ACM-W</strong>, is an exciting coding competition
+        celebrating innovation, collaboration, and problem-solving. This year’s
+        focus — <strong>AI in Healthcare</strong> — challenges participants to
+        push boundaries and create impactful technological solutions that
+        transform healthcare.
+      </p>
     </section>
   );
-};
+}
 
 export default EventSection;
