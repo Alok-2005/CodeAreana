@@ -12,6 +12,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<IndexPage />} />
         {/* <Route path="/events" element={<Event />} /> */}
+        
         <Route path="/events" element={<CodeArena />} />
       </Routes>
     </Router>
