@@ -42,7 +42,7 @@ const CodeArena = () => {
           <HeroSection onRegisterClick={scrollToRegister}/>
         </section>
 
-        {/* Event Details */}
+        {/* Event    Details */}
         <section 
           id="event"
           ref={aboutRef}
