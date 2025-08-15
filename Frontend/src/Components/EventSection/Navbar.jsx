@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-scroll";
 import "./Navbar.css";
 import codecraftLogo from "../../assets/codecraft-logo.png";
 import acmwLogo from "../../assets/acmw-logo.png";
-
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
   const menuItems = [
     { label: "ABOUT", to: "about" },
@@ -16,15 +16,35 @@ const Navbar = () => {
 
   const toggleMenu = () => setIsOpen(!isOpen);
 
+  // Handle scroll effect
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        setScrolled(true);
+      } else {
+        setScrolled(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <nav className="navbar">
+    <nav className={`navbar ${scrolled ? "scrolled" : ""}`}>
       <div className="navbar-left">
-        <img src={codecraftLogo} alt="CodeCraft" className="logo" />
+        <div className="logo-container">
+        
+                  <img src={codecraftLogo} alt="CodeCraft" className="logo" />
         <img src={acmwLogo} alt="ACM-W" className="logo" />
+        </div>
       </div>
 
       {/* Hamburger Button */}
-      <div className="hamburger" onClick={toggleMenu}>
+      <div 
+        className={`hamburger ${isOpen ? "open" : ""}`} 
+        onClick={toggleMenu}
+      >
         <span className="bar"></span>
         <span className="bar"></span>
         <span className="bar"></span>
@@ -38,15 +58,16 @@ const Navbar = () => {
               activeClass="active"
               to={item.to}
               smooth={true}
-              duration={200}
+              duration={500}
               spy={true}
               offset={-80}
-              onClick={() => setIsOpen(false)} // close menu after click
+              onClick={() => setIsOpen(false)}
             >
               {item.label}
             </Link>
           </li>
         ))}
+        
       </ul>
     </nav>
   );

@@ -86,7 +86,7 @@ const NeuralNetworkCanvas = () => {
     };
   }, []);
 
-  return <canvas ref={canvasRef} className="network-canvas"></canvas>;
+  return <canvas ref={canvasRef} className="network-canvas absolute "></canvas>;
 };
 
 export default NeuralNetworkCanvas;

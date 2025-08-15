@@ -1,14 +1,17 @@
+ 
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.8rem 2rem;
-  background-color: #0d1117;
-  position: sticky;
+  padding: 1rem 5%;
+  background-color: rgba(15, 12, 41, 0.8);
+  position: fixed;
   top: 0;
-  z-index: 999;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  transition: all 0.3s ease;
 }
-
 .navbar-left {
   display: flex;
   align-items: center;
@@ -47,28 +50,157 @@
 .navbar-right li:hover::after {
   width: 100%;
 }
-/*  */ 
- 
+.navbar.scrolled {
+  background-color: rgba(15, 12, 41, 0.95);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+  padding: 0.8rem 5%;
+}
 
-/* Mobile View */
-@media (max-width: 768px) {
-  .navbar-right {
-    position: absolute;
-    top: 70px;
-    right: 0;
-    background: #181818;
-    flex-direction: column;
-    width: 100%;
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.3s ease-in-out;
+.logo-container {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.logo-placeholder {
+  padding: 0.8rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.codecraft-logo {
+  background: linear-gradient(135deg, #8a2be2, #4b0082);
+  border: 1px solid #9370db;
+}
+
+.acmw-logo {
+  background: linear-gradient(135deg, #ff69b4, #c71585);
+  border: 1px solid #ffb6c1;
+}
+
+.navbar-right {
+  display: flex;
+  list-style: none;
+  gap: 2rem;
+  align-items: center;
+}
+
+.navbar-right li a {
+  color: #f0f0f0;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1.1rem;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.navbar-right li a:hover {
+  color: #00e5ff;
+  background: rgba(0, 229, 255, 0.1);
+}
+
+.navbar-right li a.active {
+  color: #00e5ff;
+  border-bottom: 2px solid #00e5ff;
+}
+
+.register-btn {
+  background: linear-gradient(135deg, #00e5ff, #0077ff);
+  color: white;
+  border: none;
+  padding: 0.8rem 1.8rem;
+  border-radius: 30px;
+  font-weight: 600;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 229, 255, 0.3);
+}
+
+.register-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0, 229, 255, 0.5);
+}
+
+/* Hamburger menu styles */
+.hamburger {
+  display: none;
+  cursor: pointer;
+  z-index: 1001;
+}
+
+.bar {
+  display: block;
+  width: 25px;
+  height: 3px;
+  margin: 5px auto;
+  background-color: #fff;
+  transition: all 0.3s ease-in-out;
+}
+
+/* Mobile menu styles */
+@media (max-width: 900px) {
+  .navbar {
+    padding: 1rem 5%;
   }
-
-  .navbar-right.open {
-    max-height: 300px; /* enough to show menu items */
-  }
-
+  
   .hamburger {
-    display: flex;
+    display: block;
+  }
+  
+  .hamburger.open .bar:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+  }
+  
+  .hamburger.open .bar:nth-child(2) {
+    opacity: 0;
+  }
+  
+  .hamburger.open .bar:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+  }
+  
+  .navbar-right {
+    position: fixed;
+    right: -100%;
+    top: 0;
+    flex-direction: column;
+    background: rgba(15, 12, 41, 0.98);
+    width: 70%;
+    height: 100vh;
+    padding-top: 5rem;
+    gap: 2.5rem;
+    transition: all 0.5s ease;
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.3);
+  }
+  
+  .navbar-right.open {
+    right: 0;
+  }
+  
+  .navbar-right li a {
+    font-size: 1.3rem;
+    padding: 0.8rem 1.5rem;
+  }
+  
+  
+}
+
+@media (max-width: 500px) {
+  .logo-container {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .logo-placeholder {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
   }
 }

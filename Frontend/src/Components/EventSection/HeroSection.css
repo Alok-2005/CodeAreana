@@ -1,51 +1,189 @@
+/* HeroSection.css */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap');
+
 .hero-container {
   position: relative;
   height: 100vh;
   width: 100%;
   overflow: hidden;
-  background: #0b0c10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.network-canvas {
+.hero-background {
   position: absolute;
   top: 0;
   left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+  z-index: -1;
+}
+
+.neural-network-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.6;
+}
+
+.neural-network-overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  gap: 30px;
+}
+
+.neural-node {
+  position: relative;
+  width: 12px;
+  height: 12px;
+  background: #00e5ff;
+  border-radius: 50%;
+  box-shadow: 0 0 15px rgba(0, 229, 255, 0.7);
   z-index: 1;
 }
 
+.neural-node::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(0, 229, 255, 0.5);
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(2);
+    opacity: 0;
+  }
+}
+
+.hero-particle {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+  z-index: 0;
+}
+
+.hero-gradient {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at center, transparent 0%, rgba(15, 12, 41, 0.8) 70%);
+}
+
 .hero-content {
-  position: relative;
-  z-index: 2;
-  color: white;
   text-align: center;
-  top: 40%;
-  transform: translateY(-50%);
+  z-index: 10;
+  padding: 20px;
 }
 
-.hero-content h1 {
-  font-size: 3.5rem;
-  margin-bottom: 20px;
-  color: #ffffff;
+.hero-title {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 800;
+  font-size: 5rem;
+  margin-bottom: 1rem;
+  color: white;
+  text-shadow: 0 0 20px rgba(0, 229, 255, 0.7);
+  letter-spacing: 2px;
+  text-transform: uppercase;
 }
 
-.hero-content p {
-  font-size: 1.5rem;
-  margin-bottom: 30px;
-  color: #ddd;
+.hero-subtitle {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 300;
+  font-size: 1.8rem;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 3rem;
+  letter-spacing: 4px;
+  text-transform: uppercase;
 }
 
 .register-btn {
-  background: #ffffff;
-  color: black;
-  padding: 12px 28px;
-  border: none;
+  position: relative;
+  background: transparent;
+  color: white;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
   font-size: 1.2rem;
-  border-radius: 30px;
+  padding: 15px 45px;
+  border: 2px solid #00e5ff;
+  border-radius: 50px;
   cursor: pointer;
-  transition: all 0.3s ease-in-out;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  letter-spacing: 1px;
+  z-index: 1;
 }
 
 .register-btn:hover {
-  background: #00ccaa;
-  transform: scale(1.05);
+  background: rgba(0, 229, 255, 0.2);
+  box-shadow: 0 0 20px rgba(0, 229, 255, 0.5);
+  transform: translateY(-3px);
+}
+
+.btn-hover-effect {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(0, 229, 255, 0.4), transparent);
+  transform: translateX(-100%);
+  transition: transform 0.6s ease;
+  z-index: -1;
+}
+
+.register-btn:hover .btn-hover-effect {
+  transform: translateX(100%);
+}
+
+/* Neural connections */
+.neural-network-overlay::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    linear-gradient(90deg, transparent 24px, rgba(0, 229, 255, 0.1) 25px, transparent 26px),
+    linear-gradient(0deg, transparent 24px, rgba(0, 229, 255, 0.1) 25px, transparent 26px);
+  background-size: 50px 50px;
+  opacity: 0.3;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 3.5rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 1.3rem;
+  }
+  
+  .register-btn {
+    padding: 12px 35px;
+    font-size: 1rem;
+  }
 }
