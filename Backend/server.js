@@ -98,6 +98,18 @@ app.post("/upload", upload.single("payment"), async (req, res) => {
     });
   }
 });
+const pingWebsite = async () => {
+  
+  try {
+    const res = await fetch(`http://localhost:${PORT}`);
+    console.log(`Pinged: ${res.status}`);
+  } catch (err) {
+    console.error(err);
+  }
+};
 
-// Start server
- app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+  pingWebsite(); // initial ping
+  setInterval(pingWebsite, 12 * 60 * 1000); // repeat every 12 min
+});
