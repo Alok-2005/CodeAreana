@@ -25,7 +25,9 @@ const imagekit = new ImageKit({
   privateKey: process.env.IMAGEKIT_PRIVATE_KEY,
   urlEndpoint: process.env.IMAGEKIT_URL_ENDPOINT
 });
-
+app.get("/", (req, res) => {
+  res.send("Server is alive!");
+});
 // Upload endpoint
 app.post("/upload", upload.single("payment"), async (req, res) => {
   try {
@@ -111,5 +113,5 @@ const pingWebsite = async () => {
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
   pingWebsite(); // initial ping
-  setInterval(pingWebsite, 12 * 60 * 1000); // repeat every 12 min
+  setInterval(pingWebsite, 12* 60 * 1000); // repeat every 12 min
 });
