@@ -1,7 +1,7 @@
 // src/components/Form.jsx
 import React, { useState } from 'react';
 import { FaUpload, FaUserFriends, FaTrophy, FaCheck, FaCopy } from 'react-icons/fa';
-
+import "./form.css"
 const Form = () => {
   const [teamSize, setTeamSize] = useState(3);
   const [paymentFile, setPaymentFile] = useState(null);
@@ -57,7 +57,7 @@ const Form = () => {
   if (paymentFile) {
     formData.append("payment", paymentFile);
   }
-
+  // we have change this fetch link in production
   try {
     const res = await fetch("http://localhost:3000/upload", {
       method: "POST",

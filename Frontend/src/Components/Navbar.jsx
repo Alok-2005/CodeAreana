@@ -68,11 +68,13 @@ const Navbar = () => {
       </div>
 
       {/* Mobile Menu */}
-      <div
-        className={`md:hidden bg-[#181818] transition-all duration-300 overflow-hidden ${
-          isOpen ? "max-h-64 opacity-100" : "max-h-0 opacity-0"
-        }`}
-      >
+<div
+  className={`md:hidden bg-[#181818] transition-all duration-400 overflow-hidden ${
+    isOpen ? "max-h-screen opacity-100" : "max-h-0 opacity-0"
+  }`}
+>
+
+        
         <div className="px-4 py-4 space-y-3 text-lg font-medium">
           {menuItems.map((item) => (
             <a

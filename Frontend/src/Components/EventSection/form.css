@@ -1,10 +1,9 @@
 @media (max-width: 460px) {
   .same-college-btn {
-    flex-direction: column;   /* stack button content vertically if it has icons/text */
-    text-align: center;       /* center text */
-    width: 100%;              /* make button full width */
-    padding: 12px 20px;       /* adjust padding for smaller screens */
-    font-size: 16px;          /* slightly larger font for touch screens */
-    margin: 10px 0;           /* spacing between buttons if multiple */
+    flex-direction: column;   
+    text-align: center;      
+    font-size: 0.8rem !important;
+    max-width: 30vw;
+
   }
 }
