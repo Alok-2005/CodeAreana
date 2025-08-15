@@ -2,7 +2,9 @@
 import React, { useState } from 'react';
 import { FaUpload, FaUserFriends, FaTrophy, FaCheck, FaCopy } from 'react-icons/fa';
 import "./form.css"
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
 const Form = () => {
+  
   const [teamSize, setTeamSize] = useState(3);
   const [paymentFile, setPaymentFile] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -59,7 +61,7 @@ const Form = () => {
   }
   // we have change this fetch link in production
   try {
-    const res = await fetch("http://localhost:3000/upload", {
+    const res = await fetch(`${BACKEND_URL}/upload`, {
       method: "POST",
       body: formData,
     });
