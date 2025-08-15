@@ -1,6 +1,8 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import gsap from "gsap";
 import NeuralNetworkCanvas from "./NeuralNetworkCanvas";
+import codecraftLogo from "../../assets/codecraft-logo.png";
+import acmwLogo from "../../assets/acmw-logo.png";
 
 const HeroSection = ({ onRegisterClick }) => {
   const heroRef = useRef(null);
@@ -9,137 +11,148 @@ const HeroSection = ({ onRegisterClick }) => {
   const buttonRef = useRef(null);
   const particlesRef = useRef([]);
   const glowRef = useRef(null);
-  const charRefs = useRef([]);
+  const typewriterRef = useRef(null);
+  const [typewriterText, setTypewriterText] = useState('');
+
+  // Typewriter effect
+  useEffect(() => {
+    const text = "Code Arena 3.0";
+    let index = 0;
+    
+    const typeWriter = () => {
+      if (index <= text.length) {
+        setTypewriterText(text.substring(0, index));
+        index++;
+        if (index <= text.length) {
+          setTimeout(typeWriter, 150);
+        }
+      }
+    };
+    
+    // Start typewriter after initial delay
+    setTimeout(() => {
+      typeWriter();
+    }, 1500);
+  }, []);
 
   // Create particle references
   useEffect(() => {
     particlesRef.current = [];
-    for (let i = 0; i < 30; i++) {
+    for (let i = 0; i < 20; i++) {
       particlesRef.current.push(React.createRef());
     }
   }, []);
 
   // Set up animations
   useEffect(() => {
-    // Ensure all elements exist before animating
     if (!heroRef.current || !titleRef.current || !subtitleRef.current || !buttonRef.current || !glowRef.current) {
       return;
     }
 
-    // Get valid particle elements
     const validParticles = particlesRef.current
       .map(p => p.current)
       .filter(Boolean);
 
-    // Initial animations
-    gsap.set([subtitleRef.current, buttonRef.current], {
+    // Initial setup
+    gsap.set([titleRef.current, subtitleRef.current, buttonRef.current], {
       opacity: 0,
-      y: 30
+      y: 50
     });
-    
+
     if (validParticles.length > 0) {
       gsap.set(validParticles, {
         opacity: 0,
         scale: 0
       });
     }
-    
+
     gsap.set(glowRef.current, {
       opacity: 0,
-      scale: 0.5
+      scale: 0.8
     });
 
-    // Create character refs for title animation
-    const titleChars = "Code Arena 3.0".split("");
-    
     // Main timeline
-    const tl = gsap.timeline();
-    
-    // Animate each character in the title
-    charRefs.current.forEach((charEl, i) => {
-      if (!charEl) return;
-      
-      gsap.set(charEl, {
-        opacity: 0,
-        y: 50,
-        rotation: 10
-      });
-      
-      tl.to(charEl, {
-        opacity: 1,
-        y: 0,
-        rotation: 0,
-        duration: 0.7,
-        ease: "back.out(1.7)",
-        delay: i * 0.05
-      }, 0);
-    });
-    
-    // Animate subtitle
-    tl.to(subtitleRef.current, {
+    const tl = gsap.timeline({ delay: 0.5 });
+
+    // Animate presenter text
+    tl.to(titleRef.current, {
       opacity: 1,
       y: 0,
       duration: 1,
       ease: "power3.out"
+    });
+
+    // Animate subtitle
+    tl.to(subtitleRef.current, {
+      opacity: 1,
+      y: 0,
+      duration: 0.8,
+      ease: "power3.out"
     }, "-=0.3");
-    
+
     // Animate button
     tl.to(buttonRef.current, {
       opacity: 1,
       y: 0,
       duration: 0.8,
       ease: "power3.out"
-    }, "-=0.5");
-    
+    }, "-=0.4");
+
     // Animate particles
     if (validParticles.length > 0) {
       tl.to(validParticles, {
-        opacity: 1,
+        opacity: 0.8,
         scale: 1,
-        duration: 1.5,
-        stagger: 0.05,
-        ease: "elastic.out(1, 0.5)"
-      }, "-=0.5");
+        duration: 1.2,
+        stagger: 0.08,
+        ease: "back.out(1.7)"
+      }, "-=0.6");
     }
-    
+
     // Animate glow effect
     tl.to(glowRef.current, {
-      opacity: 0.8,
+      opacity: 0.3,
       scale: 1,
       duration: 2,
       ease: "power2.out"
     }, "-=1");
-    
+
     // Floating particles animation
     validParticles.forEach((particle, i) => {
-      const duration = 3 + Math.random() * 4;
+      const duration = 4 + Math.random() * 3;
       const delay = Math.random() * 2;
-      const yoyo = true;
-      const repeat = -1;
       
       gsap.to(particle, {
-        y: `+=${40 + Math.random() * 60}`,
-        x: `+=${20 + Math.random() * 40}`,
+        y: `+=${30 + Math.random() * 40}`,
+        x: `+=${15 + Math.random() * 30}`,
         duration,
         delay,
-        yoyo,
-        repeat,
+        yoyo: true,
+        repeat: -1,
         ease: "sine.inOut"
+      });
+      
+      gsap.to(particle, {
+        rotation: 360,
+        duration: 8 + Math.random() * 4,
+        repeat: -1,
+        ease: "none"
       });
     });
 
-    // Continuous title glow animation
+    // Subtle glow animation for title
     gsap.to(titleRef.current, {
-      textShadow: "0 0 30px rgba(0, 229, 255, 0.8)",
-      duration: 3,
+      textShadow: "0 0 20px rgba(0, 229, 255, 0.5)",
+      duration: 4,
       repeat: -1,
       yoyo: true,
       ease: "power1.inOut"
     });
 
   }, []);
+
   return (
-    <section 
+    <section
       ref={heroRef}
       className="hero-container"
       style={{
@@ -156,9 +169,9 @@ const HeroSection = ({ onRegisterClick }) => {
     >
       {/* Neural network canvas */}
       <NeuralNetworkCanvas />
-      
+
       {/* Floating particles */}
-      {Array.from({ length: 30 }).map((_, i) => (
+      {Array.from({ length: 20 }).map((_, i) => (
         <div 
           key={i}
           ref={particlesRef.current[i]}
@@ -166,12 +179,12 @@ const HeroSection = ({ onRegisterClick }) => {
           style={{
             position: "absolute",
             borderRadius: "50%",
-            background: "rgba(255, 255, 255, 0.8)",
-            boxShadow: "0 0 10px rgba(255, 255, 255, 0.8)",
+            background: "linear-gradient(45deg, rgba(0, 229, 255, 0.8), rgba(0, 229, 255, 0.6))",
+            boxShadow: "0 4px 15px rgba(0, 229, 255, 0.3)",
             top: `${Math.random() * 100}%`,
             left: `${Math.random() * 100}%`,
-            width: `${5 + Math.random() * 15}px`,
-            height: `${5 + Math.random() * 15}px`,
+            width: `${6 + Math.random() * 12}px`,
+            height: `${6 + Math.random() * 12}px`,
             zIndex: 1
           }}
         />
@@ -185,10 +198,10 @@ const HeroSection = ({ onRegisterClick }) => {
           top: "50%",
           left: "50%",
           transform: "translate(-50%, -50%)",
-          width: "500px",
-          height: "500px",
+          width: "600px",
+          height: "600px",
           borderRadius: "50%",
-          background: "radial-gradient(circle, rgba(0,229,255,0.5) 0%, rgba(15,12,41,0) 70%)",
+          background: "radial-gradient(circle, rgba(0,229,255,0.3) 0%, transparent 70%)",
           zIndex: 2,
           pointerEvents: "none"
         }}
@@ -210,91 +223,137 @@ const HeroSection = ({ onRegisterClick }) => {
         style={{
           textAlign: "center",
           zIndex: 3,
-          padding: "20px",
+          padding: "40px 20px",
           width: "100%", 
-          maxWidth: "1200px",  
+          maxWidth: "1000px",  
           margin: "0 auto", 
         }}
       >
-        <h1 
+        <div 
           ref={titleRef}
           style={{
-            fontFamily: "'Montserrat', sans-serif",
-            fontWeight: 800,
-            fontSize: "clamp(2.5rem, 7vw, 4.5rem)", // Slightly smaller on mobile
+            fontFamily: "'Inter', 'Segoe UI', sans-serif",
+            fontWeight: 300,
+            fontSize: "clamp(1.2rem, 3vw, 1.8rem)",
             marginBottom: "1rem",
-            color: "white",
-            textShadow: "0 0 10px rgba(0, 229, 255, 0.5)",
-            letterSpacing: "2px",
+            color: "rgba(255, 255, 255, 0.9)",
+            letterSpacing: "3px",
             textTransform: "uppercase",
-            lineHeight: 1.1,
-            overflow: "hidden",
-            padding: "0 20px", // Add padding for mobile
-            boxSizing: "border-box" // Ensure padding is included in width
+            lineHeight: 1.4,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: "20px"
           }}
         >
-          {"Code Arena 3.0".split("").map((char, i) => (
-            <span 
-              key={i}
-              ref={el => charRefs.current[i] = el}
-              style={{
-                display: "inline-block",
-                minWidth: char === " " ? "0.5em" : "auto"
-              }}
-            >
-              {char}
-            </span>
-          ))}
+          <img 
+            src={codecraftLogo} 
+            alt="CodeCraft" 
+            style={{ 
+              height: "150px",
+              width: "auto",
+              maxWidth: "300px"
+            }} 
+          /> 
+          <span style={{ fontSize: "1.5em" }}>X</span>
+          <img 
+            src={acmwLogo} 
+            alt="ACM-W" 
+            style={{ 
+              height: "150px",
+              width: "auto",
+              maxWidth: "300px"
+            }} 
+          />
+          <br />
+        </div>
+
+          <span style={{ fontFamily: "'Inter', 'Segoe UI', sans-serif",
+            fontWeight: "bold",
+
+            fontSize: "clamp(1.2rem, 3vw, 1.8rem)",
+            marginBottom: "1rem",
+            color: "rgba(255, 255, 255, 0.9)",
+            letterSpacing: "3px",
+            textTransform: "uppercase",
+            lineHeight: 1.4,}}>Presents</span>
+        
+        <h1 
+          ref={typewriterRef}
+          style={{
+            fontFamily: "'Inter', 'Segoe UI', sans-serif",
+            fontWeight: 700,
+            fontSize: "clamp(2.8rem, 8vw, 5.5rem)",
+            marginBottom: "1.5rem",
+            color: "white",
+            textShadow: "0 2px 10px rgba(0, 0, 0, 0.3)",
+            letterSpacing: "1px",
+            lineHeight: 1.1,
+            minHeight: "1.2em"
+          }}
+        >
+          {typewriterText}
+          <span 
+            style={{ 
+              opacity: typewriterText.length < 14 ? 1 : 0,
+              animation: typewriterText.length < 14 ? 'blink 1s infinite' : 'none',
+              marginLeft: '2px',
+              color: 'white'
+            }}
+          >
+            |
+          </span>
         </h1>
+        
         <p 
           ref={subtitleRef}
           style={{
-            fontFamily: "'Montserrat', sans-serif",
-            fontWeight: 300,
-            fontSize: "clamp(1rem, 2.5vw, 1.6rem)", // Slightly smaller
-            color: "rgba(255, 255, 255, 0.9)",
-            marginBottom: "2rem", // Reduced margin
-            letterSpacing: "4px",
-            textTransform: "uppercase",
-            padding: "0 20px" // Add padding for mobile
+            fontFamily: "'Inter', 'Segoe UI', sans-serif",
+            fontWeight: 400,
+            fontSize: "clamp(1.1rem, 2.8vw, 1.4rem)",
+            color: "rgba(255, 255, 255, 0.8)",
+            marginBottom: "3rem",
+            letterSpacing: "2px",
+            lineHeight: 1.6,
+            maxWidth: "600px",
+            margin: "0 auto 3rem auto"
           }}
         >
-          AI in Healthcare
+          Join the ultimate coding competition and showcase your skills
         </p>
+        
         <button
           ref={buttonRef}
           onClick={onRegisterClick}
           style={{
             position: "relative",
-            background: "transparent",
+            background: "linear-gradient(45deg, #00e5ff, #0091ea)",
             color: "white",
-            fontFamily: "'Montserrat', sans-serif",
+            fontFamily: "'Inter', 'Segoe UI', sans-serif",
             fontWeight: 600,
-            fontSize: "clamp(0.9rem, 1.8vw, 1.1rem)", // Slightly smaller
-            padding: "12px 35px", // Smaller padding
-            border: "2px solid #00e5ff",
+            fontSize: "clamp(1rem, 2vw, 1.2rem)",
+            padding: "16px 45px",
+            border: "none",
             borderRadius: "50px",
             cursor: "pointer",
             overflow: "hidden",
-            transition: "all 0.3s ease",
+            transition: "all 0.4s ease",
             letterSpacing: "1px",
             zIndex: 1,
-            margin: "0 auto", // Center the button
-            display: "block" // Ensure it respects margin auto
+            boxShadow: "0 8px 25px rgba(0, 229, 255, 0.4)",
+            textTransform: "uppercase"
           }}
           onMouseEnter={(e) => {
             gsap.to(e.target, {
-              background: "rgba(0, 229, 255, 0.2)",
-              boxShadow: "0 0 20px rgba(0, 229, 255, 0.5)",
-              y: -3,
+              transform: "translateY(-3px) scale(1.05)",
+              boxShadow: "0 12px 35px rgba(0, 229, 255, 0.5)",
               duration: 0.3
             });
           }}
           onMouseLeave={(e) => {
             gsap.to(e.target, {
-              background: "transparent",
-              boxShadow: "none",
-              y: 0,
+              transform: "translateY(0) scale(1)",
+              boxShadow: "0 8px 25px rgba(0, 229, 255, 0.4)",
               duration: 0.3
             });
           }}
@@ -307,7 +366,7 @@ const HeroSection = ({ onRegisterClick }) => {
               left: 0,
               width: "100%",
               height: "100%",
-              background: "linear-gradient(90deg, transparent, rgba(0, 229, 255, 0.4), transparent)",
+              background: "linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent)",
               transform: "translateX(-100%)",
               transition: "transform 0.6s ease",
               zIndex: -1
@@ -316,6 +375,17 @@ const HeroSection = ({ onRegisterClick }) => {
           />
         </button>
       </div>
+      
+      <style jsx>{`
+        @keyframes blink {
+          0%, 50% { opacity: 1; }
+          51%, 100% { opacity: 0; }
+        }
+        
+        .hero-container:hover .btn-hover-effect {
+          transform: translateX(100%);
+        }
+      `}</style>
     </section>
   );
 };
