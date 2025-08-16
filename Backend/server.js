@@ -15,7 +15,7 @@ const WEBSITE_URL = process.env.WEBSITE_URL || `http://localhost:${PORT}`;
 
 // Initialize Express and middleware
 const app = express();
-app.use(cors({ origin: process.env.FRONTEND_URL || "http://localhost:5173" }));
+app.use(cors({ origin: process.env.FRONTEND_URL || " https://codecraft-pccoer.web.app" }));
 app.use(express.json());
 
 // Configure services
